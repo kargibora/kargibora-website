@@ -1,7 +1,7 @@
 import rss from "@astrojs/rss";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 import { getCollection } from "astro:content";
-
+import katex from "katex";
 export async function get(context) {
   const blog = await getCollection("blog");
   return rss({
@@ -13,6 +13,7 @@ export async function get(context) {
       pubDate: post.data.pubDate,
       description: post.data.description,
       link: `/blog/${post.slug}/`,
+      content: katex.renderToString(post.data.content), // Render equations using KaTeX
     })),
   });
 }
